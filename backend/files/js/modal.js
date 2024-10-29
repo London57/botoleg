@@ -7,7 +7,7 @@ const modalController = ({modal, btnOpen, btnClose, time = 100}) => {
     visibility: hidden;
     opacity: 0;
     transition: opacity ${time}ms linear;
-  `;
+  `
 
   const closeModal = event => {
     const target = event.target;
@@ -42,13 +42,7 @@ const modalController = ({modal, btnOpen, btnClose, time = 100}) => {
 };
 
 modalController({
-  modal: '.modal1',
-  btnOpen: '.section__button',
+  modal: '.modal',
+  btnOpen: '.section_modal__button',
   btnClose: '.modal__close',
-});
-
-modalController({
-  modal: '.modal2',
-  btnOpen: '.section__button2',
-  btnClose: '.modal__close'
 });
