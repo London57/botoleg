@@ -1,4 +1,4 @@
-const url = "http://192.168.1.2:8000/maps/card"
+const url = "http://192.168.1.2:8000/maps/"
 		
 document.onclick = function(e) {
 	res = click(e)
@@ -9,11 +9,15 @@ document.onclick = function(e) {
 }
 
 function click(e) {
-console.log(e)
-	let classes_list = e.target.className.split(' ')
-	console.log(classes_list, e.target)
+	let target = e.target
+	if (target.className.split(' ')[0] == 'fa-rotate-0') {
+	  target = target.parentElement
+	}
+	
+	let classes_list = target.className.split(' ')
+	console.log(classes_list, target.className)
 		let modal = document.querySelector(".modal")
-	if (modal && !(e.target.className.startsWith("modal_"))) {
+	if (modal && !(target.className.startsWith("modal_"))) {
 		modal.remove()
 	}
 	if (classes_list[1] !== "leaflet-container" && classes_list.length > 2) {
@@ -23,17 +27,19 @@ console.log(e)
 
 function send_fetch_for_get_card_info(p) {
 console.log("p:", p)
-fetch(`${url}?business_id=${p[3]}`, {method: "GET"})
+fetch(`${url}business_info?business_id=${p[2]}`, {method: "GET"})
 .then(response => {
 response.json().then((res) => {
+console.log(res)
+if (res) {
 	create_modal_window({
 		title: "gas station",
 		modal_text: {
 			for_sale: true,
 			businessman_name: res.businessman_name,
-			income: `${res.income}$/min`,
+			income: res.income,
 		}
-	})
+	})}
 })
 }).catch(error => console.log(error))
 }
@@ -57,6 +63,8 @@ modal_window.innerHTML = `<div class="modal__main">
 
 	<button class="modal__btn">buy</button>
 	<button class="modal__close" >&#10006;</button>
+	
+	<a href="https://t.me/Alex_Maximow_bot" target="_blank">a</a>
 </div>`
 
 : modal_window.innerHTML = `<div class="modal__main">
